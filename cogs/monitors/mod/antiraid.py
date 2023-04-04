@@ -268,7 +268,7 @@ class AntiRaidMonitor(commands.Cog):
             if not bucket.update_rate_limit(current):
                 user = message.author
                 ctx = await self.bot.get_context(message)
-                await mute(ctx, user, mod=ctx.guild.me, reason="Ping spam")
+                await mute(ctx, user, dur_seconds=10800,  mod=ctx.guild.me, reason="Ping spam")
                 return True
 
         return False
@@ -291,7 +291,7 @@ class AntiRaidMonitor(commands.Cog):
             if not bucket.update_rate_limit(current):
                 user = message.author
                 ctx = await self.bot.get_context(message)
-                await mute(ctx, user, mod=ctx.guild.me, reason="Message spam")
+                await mute(ctx, user, dur_seconds=10800, mod=ctx.guild.me, reason="Message spam")
                 return True
 
         return False
@@ -325,7 +325,7 @@ class AntiRaidMonitor(commands.Cog):
 
         ctx = await self.bot.get_context(message)
         user = message.author
-        await mute(ctx, user, mod=ctx.guild.me, reason="Possible new raid phrase detected")
+        await mute(ctx, user, dur_seconds=10800, mod=ctx.guild.me, reason="Possible new raid phrase detected")
 
         # report the user to mods
         await report_raid_phrase(self.bot, message, domain)
