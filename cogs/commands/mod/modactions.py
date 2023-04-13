@@ -200,10 +200,10 @@ class ModActions(commands.Cog):
             else:
                 await notify_user(user, f"You have been banned from {ctx.guild.name}\n\nIf you would like to appeal your ban, please fill out this form: <{cfg.ban_appeal_url}>", log)
 
-            await user.ban(reason=reason)
+            await user.ban(reason=reason, delete_message_seconds=10800)
         else:
             # hackban for user not currently in guild
-            await ctx.guild.ban(discord.Object(id=user.id))
+            await ctx.guild.ban(discord.Object(id=user.id), delete_message_seconds=10800)
 
         await ctx.respond_or_edit(embed=log, delete_after=10)
         await submit_public_log(ctx, db_guild, user, log)
@@ -245,10 +245,10 @@ class ModActions(commands.Cog):
                 await notify_user(user, f"You have been banned from {ctx.guild.name}", log)
             else:
                 await notify_user(user, f"You have been banned from {ctx.guild.name}\n\nIf you would like to appeal your ban, please fill out this form: <{cfg.ban_appeal_url}>", log)
-            await user.ban(reason=reason)
+            await user.ban(reason=reason, delete_message_seconds=10800)
         else:
             # hackban for user not currently in guild
-            await ctx.guild.ban(discord.Object(id=user.id))
+            await ctx.guild.ban(discord.Object(id=user.id), delete_message_seconds=10800)
 
         await ctx.interaction.message.delete()
         await ctx.respond_or_edit(embed=log, delete_after=10)

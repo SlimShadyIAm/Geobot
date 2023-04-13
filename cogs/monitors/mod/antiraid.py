@@ -367,9 +367,9 @@ class AntiRaidMonitor(commands.Cog):
                     pass
 
             if user.guild.get_member(user.id) is not None:
-                await user.ban(reason="Raid")
+                await user.ban(reason="Raid", delete_message_seconds=10800)
             else:
-                await user.guild.ban(discord.Object(id=user.id), reason="Raid")
+                await user.guild.ban(discord.Object(id=user.id), reason="Raid", delete_message_seconds=10800)
 
             public_logs = user.guild.get_channel(db_guild.channel_public)
             if public_logs:

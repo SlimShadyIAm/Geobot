@@ -277,7 +277,7 @@ class AntiRaid(commands.Cog):
         for m in all_members:
             self.bot.ban_cache.ban(m.id)
             log = await add_ban_case(m, ctx.author, reason, db_guild)
-            await m.ban(reason=reason)
+            await m.ban(reason=reason, delete_message_seconds=10800)
             
             # send a message to the modlog channel
             await submit_public_log(ctx, db_guild, member, log)

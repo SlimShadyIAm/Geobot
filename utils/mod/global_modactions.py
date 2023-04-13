@@ -129,10 +129,10 @@ async def ban(ctx, target_member: Union[discord.Member, discord.User], mod: disc
         else:
             await notify_user(target_member, f"You have been banned from {ctx.guild.name}\n\nIf you would like to appeal your ban, please fill out this form: <{cfg.ban_appeal_url}>", log)
 
-        await target_member.ban(reason=reason)
+        await target_member.ban(reason=reason, delete_message_seconds=10800)
     else:
         # hackban for user not currently in guild
-        await ctx.guild.ban(discord.Object(id=target_member.id))
+        await ctx.guild.ban(discord.Object(id=target_member.id), delete_message_seconds=10800)
 
     if isinstance(ctx, discord.Interaction):
         ctx.client.ban_cache.ban(target_member.id)
