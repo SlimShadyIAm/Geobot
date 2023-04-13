@@ -92,7 +92,7 @@ class Filter(commands.Cog):
         if await self.do_spoiler_newline_filter(message, db_guild):
             return
 
-        await self.detect_cij_or_eta(message, db_guild)
+        # await self.detect_cij_or_eta(message, db_guild)
 
     async def nick_filter(self, member):
         triggered_words = find_triggered_filters(
