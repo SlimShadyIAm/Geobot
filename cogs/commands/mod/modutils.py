@@ -119,7 +119,7 @@ class ModUtils(commands.Cog):
     @admin_and_up()
     @app_commands.guilds(cfg.guild_id)
     @app_commands.command(description="Add XP to a user")
-    @app_commands.describe(member="The user to freeze")
+    @app_commands.describe(member="The user to add xp to")
     @app_commands.describe(amount="The amount of messages to count XP for")
     @transform_context
     async def addxp(self, ctx: GIRContext, member: discord.Member, amount: app_commands.Range[int, 1, None]):
