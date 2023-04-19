@@ -120,12 +120,13 @@ class ModUtils(commands.Cog):
     @app_commands.guilds(cfg.guild_id)
     @app_commands.command(description="Add XP to a user")
     @app_commands.describe(member="The user to freeze")
-    @app_commands.describe(amount="The amount of xp to add to a user")
+    @app_commands.describe(amount="The amount of messages to count XP for")
     @transform_context
     async def addxp(self, ctx: GIRContext, member: discord.Member, amount: app_commands.Range[int, 1, None]):
         if amount < 1:
             raise commands.BadArgument("Amount must be greater than 0.")
         
+        amount = int(amount * 5.5)
         user_service.inc_xp(member.id, amount)
         
         new_level = Xp.get_level(user_service.get_user(member.id).xp)
