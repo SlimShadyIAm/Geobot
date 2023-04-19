@@ -3,6 +3,7 @@ import typing
 
 import discord
 import pytz
+from cogs.monitors.utils.xp import Xp
 from data.model import Case
 from data.services import guild_service, user_service
 from discord import app_commands
@@ -114,6 +115,26 @@ class ModUtils(commands.Cog):
         results.save()
 
         await ctx.send_success(f"{member.mention}'s xp was {'frozen' if results.is_xp_frozen else 'unfrozen'}.")
+    
+    @admin_and_up()
+    @app_commands.guilds(cfg.guild_id)
+    @app_commands.command(description="Add XP to a user")
+    @app_commands.describe(member="The user to freeze")
+    @app_commands.describe(amount="The amount of xp to add to a user")
+    @transform_context
+    async def addxp(self, ctx: GIRContext, member: discord.Member, amount: app_commands.Range[int, 1, None]):
+        if amount < 1:
+            raise commands.BadArgument("Amount must be greater than 0.")
+        
+        user_service.inc_xp(member.id, amount)
+        
+        new_level = Xp.get_level(user_service.get_user(member.id).xp)
+        user_service.set_level(member.id, new_level)
+        
+        user_db = user_service.get_user(member.id)
+        new_xp = user_db.xp
+
+        await ctx.send_success(f"{member.mention}'s xp was set to {new_xp} and level was set to {new_level}.")
 
     @mod_and_up()
     @app_commands.guilds(cfg.guild_id)

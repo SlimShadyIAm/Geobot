@@ -50,7 +50,7 @@ class Xp(commands.Cog):
         xp_to_add = randint(0, 11)
         new_xp, level_before = user_service.inc_xp(
             message.author.id, xp_to_add)
-        new_level = self.get_level(new_xp)
+        new_level = Xp.get_level(new_xp)
 
         if new_level > level_before:
             user_service.inc_level(message.author.id)
@@ -85,7 +85,8 @@ class Xp(commands.Cog):
             role) is not None and member.guild.get_role(role) not in member.roles]
         await member.add_roles(*roles_to_add, reason="XP roles")
 
-    def get_level(self, current_xp):
+    @classmethod
+    def get_level(cls, current_xp):
         level = 0
         xp = 0
         while xp <= current_xp:

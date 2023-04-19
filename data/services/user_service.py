@@ -66,6 +66,14 @@ class UserService:
         self.get_user(id)
         User.objects(_id=id).update_one(inc__level=1)
     
+    def set_level(self, id, level) -> None:
+        """Sets user level.
+        """
+
+        user = self.get_user(id)
+        user.level = level
+        user.save()
+    
     def get_cases(self, id: int) -> Cases:
         """Return the Document representing the cases of a user, whose ID is given by `id`
         If the user doesn't have a Cases document in the database, first create that.
