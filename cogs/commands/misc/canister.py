@@ -17,14 +17,10 @@ class Canister(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.guild is None:
+        if message.guild is None or message.guild.id != cfg.guild_id:
             return
 
-        author = message.guild.get_member(message.author.id)
-        if author is None:
-            return
-
-        if not gatekeeper.has(message.guild, author, 5) and message.channel.id == guild_service.get_guild().channel_general:
+        if not gatekeeper.has(message.guild, message.author, 5) and message.channel.id == guild_service.get_guild().channel_general:
             return
 
         pattern = re.compile(
@@ -53,7 +49,7 @@ class Canister(commands.Cog):
             return
 
         view = discord.ui.View(timeout=30)
-        td = TweakDropdown(author, result, interaction=False,
+        td = TweakDropdown(message.author, result, interaction=False,
                            should_whisper=False)
         view.add_item(td)
         td.refresh_view(result[0])
